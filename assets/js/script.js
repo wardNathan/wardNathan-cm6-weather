@@ -17,6 +17,20 @@ function displayDate() {
 
 displayDate()
 
+function searchBarFunction(data) {
+    cityName.push($('#inputBox').val());
+    $('#inputBox').val("");
+    $('#searchHistory').text("");
+
+    $.each(cityName, function(index, value) {
+        $('#searchHistory').append("<li class='historyItem' onclick='addtotextbox(" + index + ")'>" + value + '</li>');
+    });
+}
+
+function addtotextbox(id) {
+    $('#searchBar').val(cityName[id]);
+}
+
 function getCurrentApi() {
     var requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q='+inputBox.value+'&appid=06b380e6671f5b35874bb3a59ed6a6df&units=imperial';
 
@@ -59,11 +73,10 @@ function getApi() {
             document.getElementById("img" +(i+1)).src ="http://openweathermap.org/img/wn/" + data['list'][i]['weather'][0]['icon']+".png";
         }
         for(i = 3; i < 36; i+=8){
-            document.getElementById("wind" +(i+1)).innerHTML +"Wind: " +data['list'][i]['wind']['speed'] + " MPH";
-            console.log
+            document.getElementById("wind" +(i+1)).innerHTML ="Wind: " +data['list'][i]['wind']['speed'] + " MPH";
         }
         for(i = 3; i < 36; i+=8){
-            document.getElementById("humidity" +(i+1)).innerHTML +"Humidity: " +data['list'][i]['main']['humidity']+ " %";
+        document.getElementById("humidity" +(i+1)).innerHTML ="Humidity: " +data['list'][i]['main']['humidity']+ " %";
         }
 
     var nameValue = data['city']['name'];
@@ -75,17 +88,3 @@ function getApi() {
 }
 
 button.addEventListener('click', getApi);
-
-function searchBarFunction(data) {
-    cityName.push($('#inputBox').val());
-    $('#inputBox').val("");
-    $('#searchHistory').text("");
-
-    $.each(cityName, function(index, value) {
-        $('#searchHistory').append("<li class='historyItem' onclick='addtotextbox(" + index + ")'>" + value + '</li>');
-    });
-}
-
-function addtotextbox(id) {
-    $('#searchBar').val(cityName[id]);
-}
